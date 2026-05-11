@@ -1,2 +1,5 @@
 .env
 schema_diet.sql
+venv/
+app/__pycache__
+*.pyc
