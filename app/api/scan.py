@@ -60,3 +60,11 @@ def get_scan_history(user_id: str = Depends(get_current_user)):
         .execute()
     )
     return result.data
+
+# ── DELETE /api/scan-food/history ──────────────────────────────────────────────
+
+@router.delete("/history")
+def clear_scan_history(user_id: str = Depends(get_current_user)):
+    """Elimina todo el historial de escaneos del usuario."""
+    supabase.table("scan_history").delete().eq("user_id", user_id).execute()
+    return {"message": "Historial limpiado correctamente"}
