@@ -29,3 +29,15 @@ class SurveyData(BaseModel):
 
 class ScanRequest(BaseModel):
     image_base64: str
+
+class TargetMacros(BaseModel):
+    calories: float
+    protein: float
+    carbs: float
+    fat: float
+
+class LogMealRequest(BaseModel):
+    image_base64: str
+    meal_name: str
+    target_macros: TargetMacros
+    total_expected_meals: int
