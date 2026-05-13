@@ -5,13 +5,13 @@ from app.api import auth, survey, scan, diet, streaks
 app = FastAPI(title="NutriFit AI API")
 
 origins = [
-    "https://practica-open-api.vercel.app",
+    "*"
 ]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_credentials=True,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
