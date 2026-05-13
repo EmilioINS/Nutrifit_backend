@@ -22,7 +22,6 @@ app.include_router(scan.router, prefix="/api/scan-food", tags=["scan"])
 app.include_router(diet.router, prefix="/api/diet", tags=["diet"])
 app.include_router(streaks.router, prefix="/api/streaks", tags=["streaks"])
 
-
 @app.get("/")
 def read_root():
     return {"message": "Welcome to NutriFit AI API"}
