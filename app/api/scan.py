@@ -8,7 +8,7 @@ from app.models.schemas import ScanRequest, LogMealRequest
 from app.services.ai_service import analyze_food_image
 from app.services.db_service import supabase
 from app.api.survey import get_current_user
-from datetime import datetime
+from datetime import datetime, timedelta
 
 router = APIRouter()
 
@@ -143,7 +143,15 @@ def scan_food(request: ScanRequest, user_id: str = Depends(get_current_user)):
 
 @router.get("/history")
 def get_scan_history(user_id: str = Depends(get_current_user)):
-    """Devuelve el historial de escaneos del usuario, más reciente primero."""
+    """Devuelve el historial de escaneos de las últimas 24h del usuario, más reciente primero."""
+    twenty_four_hours_ago = (datetime.utcnow() - timedelta(hours=24)).isoformat()
+    
+    # Auto-cleanup older than 24h
+    try:
+        supabase.table("scan_history").delete().eq("user_id", user_id).lt("scanned_at", twenty_four_hours_ago).execute()
+    except Exception as exc:
+        print(f"[History Cleanup Error]: {exc}")
+
     result = (
         supabase.table("scan_history")
         .select("*")
